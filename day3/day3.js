@@ -6,6 +6,8 @@ fs.readFile('day3/input.txt', (err, data) => {
 
     input = data.toString();
     var lines = input.split("\n");
+
+    var priority_sum = 0;
     
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
     const alphabet_upper = alpha.map((x) => String.fromCharCode(x));
@@ -15,21 +17,19 @@ fs.readFile('day3/input.txt', (err, data) => {
         var sub1 = lines[i].substring(0, lines[i].length/2);
         var sub2 = lines[i].substring(lines[i].length/2);
 
-        var sorted_sub1 = sub1.split("").sort().join("");
-        var sorted_sub2 = sub2.split("").sort().join("");
+        var match = '';
 
-        console.log("full ruck: ", lines[i]);
-        console.log("1st half sorted: ", sorted_sub1);
-        console.log("2nd half sorted: ", sorted_sub2);
-
+        for(let x=0; x < sub1.length; x++){
+            if(sub2.indexOf(sub1[x]) > -1){
+                match = sub2[sub2.indexOf(sub1[x])];
+                if(alphabet_upper.indexOf(match) > -1){
+                    priority_sum += alphabet_upper.indexOf(match) + 27;
+                } else {
+                    priority_sum += alphabet_lower.indexOf(match) + 1;
+                }
+                break;
+            }
+        }
     }
-
-    //iterate through strings and compare values until match is found
-
-    //find letter that appears in both compartments
-
-    //store common letter and find location within upper or lower
-
-    //use conditional for scoring, ex. if lowercase then take position and +1 
-    //or if uppercase then take position and +27
+    console.log("priortity sum: ", priority_sum);
 })
